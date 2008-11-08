@@ -2,7 +2,7 @@ package Catalyst::Helper::Model::Email;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub mk_compclass {
     my ( $class, $helper, $mailer, @mailer_args) = @_;
