@@ -1,7 +1,8 @@
-#!/usr/bin/env perl
+#!perl
 
 use strict;
 use warnings;
 
 use Test::More tests => 1;
-use ok 'Catalyst::Helper::Model::Email';
+use_ok('Catalyst::Helper::Model::Email');
+
