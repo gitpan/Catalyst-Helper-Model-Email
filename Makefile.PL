@@ -1,13 +1,51 @@
-use inc::Module::Install;
 
-name 'Catalyst-Helper-Model-Email';
-all_from 'lib/Catalyst/Helper/Model/Email.pm';
+use strict;
+use warnings;
 
-perl_version    '5.008';
+BEGIN { require 5.008_008; }
 
-requires 'Mail::Builder::Simple';
-build_requires 'Catalyst::Runtime';
-build_requires 'Test::More';
-build_requires  'Test::Pod'             => 0;
+use ExtUtils::MakeMaker 6.31;
 
-WriteAll;
+
+
+my %WriteMakefileArgs = (
+  'ABSTRACT' => 'Helper for Mail::Builder::Simple',
+  'AUTHOR' => 'Octavian Rasnita <orasnita@gmail.com>',
+  'BUILD_REQUIRES' => {
+    'Test::More' => '0'
+  },
+  'CONFIGURE_REQUIRES' => {
+    'ExtUtils::MakeMaker' => '6.31'
+  },
+  'DISTNAME' => 'Catalyst-Helper-Model-Email',
+  'EXE_FILES' => [],
+  'LICENSE' => 'perl',
+  'NAME' => 'Catalyst::Helper::Model::Email',
+  'PREREQ_PM' => {},
+  'VERSION' => '0.04',
+  'test' => {
+    'TESTS' => 't/*.t'
+  }
+);
+
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
+
+
